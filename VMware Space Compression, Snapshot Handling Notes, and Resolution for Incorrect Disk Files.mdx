@@ -1,0 +1,26 @@
+---
+title: 'VMware Space Compression, Snapshot Handling Notes, and Resolution for Incorrect Disk Files'
+date: '2015-07-07'
+tags: ['VMware', 'snapshot']
+---
+
+### Issue 1: Space Compression
+
+When compressing space, ensure that there is enough disk space available. Also, make sure the host machine has enough disk space to write `0` to the disk; otherwise, the write operation may fail. During compression, you may encounter **invalid parameter** issues.
+
+### Issue 2: Snapshot Deletion
+
+Snapshots can occupy a significant amount of disk space. When deleting snapshots, ensure that there is sufficient space available; otherwise, the snapshot deletion may fail.
+
+The problem encountered this time was that the virtual machine's disk was completely filled with `0`, resulting in limited remaining space. Subsequently, attempting to delete the snapshot failed due to insufficient space. When attempting disk compression, an invalid parameter issue occurred.
+
+### Issue 3: Loading Virtual Machine with Incorrect Disk Files
+
+The disk file loaded as the virtual machine's disk is recorded in the `.vmx` file, for example:
+> scsi0:0.fileName = "karchlinux.vmdk"
+
+If the disk file is incorrect, you can correct it here. Typically, disk files are `.vmdk` files:
+> karchlinux**.vmdk**
+
+Translate to English while maintaining the format.
+请注意，Markdown中的代码块使用三个反引号（```）包裹，并在代码块前后保留空行。标题使用 # 标记（例如 # Issue 1: Space Compression），粗体文本使用 ** 包裹（例如 **invalid parameter**），引用使用 > 符号（例如 > scsi0:0.fileName = "karchlinux.vmdk"）。
